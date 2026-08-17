@@ -1,0 +1,37 @@
+calendar_raw:
+  type: spark.SparkDataset
+  filepath: data/01_raw/calendar.csv
+  file_format: csv
+  load_args:
+    header: true
+    inferSchema: true
+
+sell_prices_raw:
+  type: spark.SparkDataset
+  filepath: data/01_raw/sell_prices.csv
+  file_format: csv
+  load_args:
+    header: true
+    inferSchema: true
+
+sales_train_raw:
+  type: spark.SparkDataset
+  filepath: data/01_raw/sales_train_validation.csv
+  file_format: csv
+  load_args:
+    header: true
+    inferSchema: true
+
+intermediate_sales_melted:
+  type: spark.SparkDataset
+  filepath: data/02_intermediate/sales_melted.parquet
+  file_format: parquet
+
+model_input_features:
+  type: spark.SparkDataset
+  filepath: data/03_features/model_input.parquet
+  file_format: parquet
+
+model_metrics:
+  type:kedro_datasets.json.JSONDataset
+  filepath: data/06_metrics/model_metrics.json

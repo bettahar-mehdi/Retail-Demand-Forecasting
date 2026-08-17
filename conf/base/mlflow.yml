@@ -1,0 +1,3 @@
+server:
+  mlflow_tracking_uri: sqlite:///mlflow.db
+  mlflow_registry_uri: sqlite:///mlflow.db
