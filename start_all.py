@@ -1,7 +1,6 @@
 """Launch both the FastAPI and Dash servers for development."""
 import subprocess
 import sys
-import time
 
 PYTHON = sys.executable
 CWD = r"D:\Retail Demand Forecasting"
