@@ -33,7 +33,7 @@ An end-to-end Machine Learning Operations (MLOps) platform designed to optimize 
 
 
 
-📁 Repository ArchitecturePlaintext├── app.py                              # Root WSGI entry point (Dash server) for cloud deployment
+## 📁 Repository ArchitecturePlaintext├── app.py                              # Root WSGI entry point (Dash server) for cloud deployment
 
 ├── app.py                              # Root WSGI entry point (Dash server) for cloud deployment
 ├── Procfile                            # Gunicorn production worker configuration
