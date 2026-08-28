@@ -12,31 +12,11 @@ An end-to-end MLOps platform designed to optimize retail inventory planning and 
 
 ---
 
-## 🏗️ Architecture & Pipeline Flow
-
-```mermaid
-flowchart LR
-    subgraph Data["1. Data Layer"]
-        A[Raw Sales & Calendar Data] -->|DVC Versioning| B[Feature Engineering Engine]
-        B --> C[(Validated Parquet Data)]
-    end
-
-    subgraph Governance["2. Training & Governance"]
-        C --> D[LightGBM Forecasting Model]
-        D --> E{WAPE Evaluation Gate}
-        E -->|Outperforms Baseline| F[(MLflow Registry)]
-        E -->|Fails Threshold| G[Reject Candidate]
-    end
-
-    subgraph Serving["3. Serving & Delivery"]
-        F --> H[FastAPI Service]
-        H --> I[Plotly Dash Executive UI]
-    end
-
-**Model:** `LightGBM` `objective=tweedie` `tweedie_variance_power=1.3` (1.1–1.5) — Poisson/Tweedie for zero-inflated counts, fallback `RandomForest`/`XGBoost`, chronological `TimeSeriesSplit`, metrics `WAPE` primary + `RMSE, MAE, R², MAPE` `src/retail_demand_forecasting/nodes/data_science.py:51`.
 
 ---
 📊 Model Performance & BenchmarksModels are evaluated using Weighted Absolute Percentage Error (WAPE) and Root Mean Squared Error (RMSE) across time-series validation splits.Model PipelineStrategyWAPE (%)RMSEStatusBaseline BenchmarkNaïve Seasonal / Lag-724.12%3.14ArchivedLightGBM ForecasterTuned Hyperparameters17.85%2.08
+
+
 ## Repository Structure
 
 ```
