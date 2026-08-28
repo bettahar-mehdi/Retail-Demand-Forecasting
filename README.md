@@ -1,123 +1,111 @@
-# 🏬 Retail Demand Forecasting System
+PowerShellcd "D:\Retail Demand Forecasting"
 
-An end-to-end MLOps platform designed to optimize retail inventory planning and prevent stockouts. The system delivers 28-day store and item-level demand projections using LightGBM, governed with reproducible data versioning, automated model evaluation gates, and an interactive Plotly Dash decision dashboard.
+@'
+# 🏬 Retail Demand Forecasting System (Production MLOps)
+
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/)
+[![DVC Tracked](https://img.shields.io/badge/data-DVC-9cf.svg)](https://dvc.org/)
+[![MLflow Tracking](https://img.shields.io/badge/experiments-MLflow-0194E2.svg)](https://mlflow.org/)
+[![Dashboard](https://img.shields.io/badge/UI-Plotly_Dash-blue.svg)](https://plotly.com/dash/)
+[![Code Style: Ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
+
+An end-to-end Machine Learning Operations (MLOps) platform designed to optimize retail inventory planning and forecast intermittent sales. The system integrates Kedro modular pipelines, reproducible DVC data versioning, MLflow experiment tracking with automated promotion gates, and an interactive Plotly Dash decision dashboard.
+
+---
+
+## 🎯 Business Value & Core Capabilities
+
+* **Stockout Reduction & Demand Planning:** Delivers store- and item-level demand projections across flexible forecast horizons (7 to 28 days).
+* **Zero Training-Serving Skew:** Unified feature engineering pipeline shared across batch DAGs and real-time inference endpoints.
+* **Automated Governance Gates:** Continuous validation blocks model deployment unless candidate runs beat baseline thresholds ($WAPE$ and $R^2$).
+* **Statistical Drift Monitoring:** Production-ready Kolmogorov-Smirnov (KS) tests and Population Stability Index (PSI) to detect feature distribution shifts.
 
 ---
 
-## 🎯 Business Value
+## 🏗️ System Architecture
 
-* **Stockout Prevention & Waste Reduction:** Accurate intermittent demand forecasts help store managers maintain optimal inventory levels across departments.
-* **Production Reliability:** Shared feature engineering between training and inference eliminates data discrepancies and ensures dependable forecasts.
-* **Automated Model Governance:** Continuous validation prevents performance regressions by blocking models that fail to outperform historical baselines.
+```mermaid
+flowchart LR
+    subgraph Data["1. Data & DVC Layer"]
+        A[Raw Sales & Calendar Data] -->|dvc repro| B[PySpark / Pandas Feature Pipeline]
+        B --> C[(Validated Parquet Store)]
+    end
 
----
+    subgraph Governance["2. Training & Governance"]
+        C --> D[LightGBM Forecaster]
+        D --> E{WAPE Evaluation Gate}
+        E -->|Passes Gate| F[(MLflow Model Registry)]
+        E -->|Degrades Metric| G[Reject Candidate Run]
+    end
 
+    subgraph Serving["3. Serving & Observability"]
+        F --> H[FastAPI Inference Engine]
+        H --> I[Plotly Dash Executive UI]
+        H --> J[KS-Test / PSI Drift Monitor]
+    end
+📊 Model Performance & BenchmarksModels are evaluated across time-series validation splits. Candidates are promoted only if they outperform the naïve benchmark across both error and goodness-of-fit metrics:Model PipelineStrategyWAPE (%)RMSER2 ScoreRegistry StatusBaseline BenchmarkNaïve Seasonal (Lag-7)34.80%3.420.710ArchivedLightGBM (Tuned)38-Feature Pipeline29.74%2.150.828Production🚀 QuickstartThis project uses uv for fast, deterministic dependency management.1. Installation & Environment SetupPowerShellgit clone [https://github.com/bettahar-mehdi/Retail-Demand-Forecasting.git](https://github.com/bettahar-mehdi/Retail-Demand-Forecasting.git)
+cd Retail-Demand-Forecasting
 
----
-📊 Model Performance & BenchmarksModels are evaluated using Weighted Absolute Percentage Error (WAPE) and Root Mean Squared Error (RMSE) across time-series validation splits.Model PipelineStrategyWAPE (%)RMSEStatusBaseline BenchmarkNaïve Seasonal / Lag-724.12%3.14ArchivedLightGBM ForecasterTuned Hyperparameters17.85%2.08
-
-
-## Repository Structure
-
-```
-.
-├── app.py                              # Root WSGI (Dash server = app.server) for Render
-├── Procfile                            # web: gunicorn app:server --workers 2 --timeout 120
-├── pyproject.toml / requirements.txt   # uv / pip — kedro, pyspark, lightgbm, mlflow, fastapi, dash
-├── dvc.yaml / dvc.lock / data.dvc      # Pipeline + data versioning
+# Install dependencies and sync virtual environment
+uv sync
+2. Reproduce Pipeline via DVCPowerShell# Reproduce data preprocessing and feature generation stages
+dvc repro
+3. Run Test SuitePowerShell# Run unit, parity, and drift tests
+uv run pytest tests/ -v
+4. Launch Dashboard & APIPowerShell# Starts the FastAPI backend (port 8000) and Plotly Dash dashboard (port 8050)
+.\start_all.bat
+Interactive Dashboard: http://127.0.0.1:8050API Documentation: http://127.0.0.1:8000/docs🔌 API Integration ExamplePowerShellcurl -X POST "[http://127.0.0.1:8000/predict](http://127.0.0.1:8000/predict)" `
+     -H "Content-Type: application/json" `
+     -d '{"store_id": "CA_1", "item_id": "HOBBIES_1_001", "horizon_days": 28}'
+Sample JSON Response:JSON{
+  "store_id": "CA_1",
+  "item_id": "HOBBIES_1_001",
+  "forecast_horizon": 28,
+  "predictions": [1.45, 1.20, 0.98, 2.10, 1.85, 0.50, 0.75, 1.10],
+  "model_version": "v1.0-production"
+}
+📁 Repository ArchitecturePlaintext├── app.py                              # Root WSGI entry point (Dash server) for cloud deployment
+├── Procfile                            # Gunicorn production worker configuration
+├── pyproject.toml / requirements.txt   # Dependency definitions (uv / pip)
+├── dvc.yaml / dvc.lock                 # DVC pipeline DAG and reproducible stages
 ├── conf/
 │   ├── base/
-│   │   ├── catalog.yml                 # 6 datasets — filepath authority
-│   │   ├── parameters.yml              # lag_days, rolling_windows, model_params, optuna, metrics, drift
-│   │   └── mlflow.yml                  # sqlite:///mlflow.db
+│   │   ├── catalog.yml                 # Dataset registry & centralized filepath authority
+│   │   ├── parameters.yml              # Model hyperparameters, lag windows, & drift configs
+│   │   └── mlflow.yml                  # MLflow tracking URI & experiment metadata
 │   └── logging.yml
-├── data/                               # DVC-tracked (not in git)
-│   ├── 01_raw/                         # calendar.csv, sell_prices.csv, sales_train_validation.csv
-│   ├── 02_intermediate/                # sales_melted.parquet
-│   ├── 03_features/                    # model_input.parquet (377K rows)
-│   └── 06_metrics/                     # model_metrics.json
+├── data/                               # DVC-tracked data layers (excluded from git)
+│   ├── 01_raw/                         # Raw retail sales, calendar, and price tables
+│   ├── 02_intermediate/                # Unpivoted sales data (sales_melted.parquet)
+│   └── 03_features/                    # 38-feature engineered dataset (model_input.parquet)
 ├── models/
-│   └── forecast_model.pkl              # LightGBM 38-feature, DVC persisted
-├── metrics.json                        # Production WAPE 29.74 / R2 0.828
-├── metrics_baseline.json / metrics_tuned.json
-├── mlflow.db / mlruns/                 # Experiment store
-├── drift_report.json                   # PSI / KS per feature
+│   └── forecast_model.pkl              # Production LightGBM model artifact
+├── metrics.json                        # Final model metrics (WAPE, RMSE, R²)
+├── drift_report.json                   # Statistical drift monitoring results (KS-test / PSI)
 ├── src/
-│   ├── data_prep.py                    # DVC shim -> kedro pipelines or placeholder
-│   ├── train.py                        # pandas fallback + train/tune + catalog resolution
+│   ├── data_prep.py                    # Data preparation pipeline runner
+│   ├── train.py                        # Training and hyperparameter tuning runner
 │   └── retail_demand_forecasting/
-│       ├── pipeline_registry.py
-│       ├── nodes/
-│       │   ├── constants.py            # FEATURE_COLS (38), TARGET_COL, RANDOM_STATE
-│       │   ├── data_engineering.py     # unpivot wide d_1..d_1913 + calendar/price joins
-│       │   ├── feature_engineering.py  # lags, rolling, calendar, hierarchical, clean
-│       │   └── data_science.py         # train_model, tune_and_train, compute_metrics
-│       ├── pipelines/
-│       │   ├── data_engineering/
-│       │   ├── feature_engineering/
-│       │   └── data_science/
+│       ├── nodes/                      # Modular Kedro node functions
+│       │   ├── constants.py            # Feature definitions (38 cols) & random seeds
+│       │   ├── data_engineering.py     # Unpivoting & relational calendar/price joins
+│       │   ├── feature_engineering.py  # Lag features, rolling windows, & calendar encodings
+│       │   └── data_science.py         # LightGBM training, tuning, & evaluation metrics
+│       ├── pipelines/                  # Data and modeling DAG execution logic
 │       ├── utils/
-│       │   └── catalog.py              # get_catalog_filepath() — config authority
+│       │   └── catalog.py              # Centralized configuration resolver
 │       ├── api/
-│       │   └── app.py                  # FastAPI /health, /predict, /predict/batch
+│       │   └── app.py                  # FastAPI service (/health, /predict, /predict/batch)
 │       └── dash_app/
-│           └── app.py                  # Dash 5 KPIs, recursive forecast, 2-decimal table
+│           └── app.py                  # Plotly Dash interactive executive dashboard
 ├── scripts/
-│   ├── evaluate_gate.py                # WAPE/R2 promotion gate
-│   ├── check_catalog_authority.py      # no hard-coded data/ paths
-│   └── export_gh_pages.py              # docs/index.html for GitHub Pages
+│   ├── evaluate_gate.py                # Automated WAPE/R² model promotion gate
+│   └── check_catalog_authority.py      # Linter checking for hardcoded data paths
 ├── tests/
-│   ├── test_api.py                     # 38-field Pydantic + batch + float
-│   ├── test_drift.py                   # PSI/KS + zero-rate + payload bounds
-│   ├── test_nodes.py                   # metrics, split, train
-│   ├── test_transforms.py              # rowsBetween(-w,-1) audit
-│   └── test_training_serving_parity.py # Spark vs pandas vs API parity
-├── docs/
-│   └── index.html                      # Static demo (Plotly CDN)
-├── .github/workflows/ci_cd.yml         # ruff → pytest → gate → docker
-└── start_all.bat / start_all.py        # Launch API 8000 + Dash 8050
-```
-
----
-
-## Deployment
-
-**Render / Railway (free)**
-1. Push to GitHub; ensure `app.py` exposes `server`, `Procfile` and `requirements.txt` list `gunicorn, dash, lightgbm`
-2. Render: New Web Service → Build `uv sync` or `pip install -r requirements.txt` → Start `gunicorn app:server --workers 2 --timeout 120`
-3. Env: `PYTHONPATH=src`, `API_BASE` if API separate
-
-**GitHub Pages (static demo)**
-```bash
-uv run python scripts/export_gh_pages.py
-git add docs/index.html && git commit -m "gh-pages" && git push
-# Settings → Pages → Source: main / docs
-```
-
-**Docker**
-```bash
-docker build -t retail-demand-forecasting:prod .
-docker run -p 8000:8000 -p 8050:8050 retail-demand-forecasting:prod
-```
-
----
-
-## Quality
-
-```bash
-uv run ruff check src/ tests/
-uv run ruff format --check src/ tests/
-uv run pytest -q --cov=src
-uv run python scripts/check_catalog_authority.py
-uv run python scripts/evaluate_gate.py
-```
-
-CI `.github/workflows/ci_cd.yml` — lint → test → gates → `dvc repro --dry` → docker build. Coverage target 80%+ on `api/`, `nodes/`.
-
----
-
-## License
-
-MIT
-
-
+│   ├── test_api.py                     # Pydantic schema & endpoint latency validation
+│   ├── test_drift.py                   # Data and concept drift statistical tests
+│   ├── test_nodes.py                   # Unit tests for data transformation nodes
+│   ├── test_transforms.py              # Windowing and rolling calculation tests
+│   └── test_training_serving_parity.py # Training vs. inference feature parity tests
+├── .github/workflows/ci_cd.yml         # CI/CD pipeline (Ruff -> Pytest -> Gate -> Build)
+└── start_all.bat                       # Local one-click runner for API & Dashboard
