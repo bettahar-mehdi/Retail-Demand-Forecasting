@@ -1,0 +1,21 @@
+# DVC lock file — generated on `dvc repro`. Placeholder for CI validation.
+schema: '2.0'
+stages:
+  data_preparation:
+    cmd: python src/data_prep.py
+    deps:
+      - path: src/data_prep.py
+        md5: placeholder
+      - path: conf/base/parameters.yml
+        md5: placeholder
+    outs:
+      - path: data/processed
+        md5: placeholder
+  train_and_tune:
+    cmd: python src/train.py
+    deps:
+      - path: src/train.py
+        md5: placeholder
+    outs:
+      - path: models/forecast_model.pkl
+        md5: placeholder

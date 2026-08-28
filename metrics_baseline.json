@@ -1,0 +1,24 @@
+{
+  "mae": 2.8249421859400714,
+  "rmse": 3.240495559783369,
+  "wape": 64.94119967678326,
+  "mape": 139.76337750314323,
+  "r2": -0.17623203281721977,
+  "train_rows": 160,
+  "test_rows": 40,
+  "features": [
+    "lag_7",
+    "lag_28",
+    "rolling_mean_7",
+    "rolling_mean_28",
+    "day_of_week",
+    "month",
+    "year",
+    "snap_CA",
+    "snap_TX",
+    "snap_WI",
+    "has_event_1",
+    "has_event_2",
+    "sell_price"
+  ]
+}

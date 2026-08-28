@@ -1,0 +1,4 @@
+outs:
+- md5: placeholder
+  path: data
+  desc: "Raw and processed M5 data — DVC-tracked, Git-ignored (see .gitignore). Restore with `dvc pull`."

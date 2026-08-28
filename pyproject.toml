@@ -1,23 +1,54 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "retail_demand_forecasting"
+name = "retail-demand-forecasting"
 version = "0.1.0"
-description = "M5 PySpark Demand Forecasting with Kedro, PySpark, and MLflow"
+description = "Retail Demand Forecasting MLOps pipeline — Kedro + PySpark + MLflow + FastAPI + Dash"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.10,<3.13"
+license = { text = "MIT" }
 dependencies = [
-    "kedro>=1.3.1",
-    "kedro-datasets[spark]>=9.1",
-    "kedro-mlflow>=2.0",
-    "pyspark>=3.5",
-    "mlflow>=2.0",
-    "fastapi>=0.100",
-    "uvicorn>=0.20",
-    "kaggle>=1.5",
-    "pandas>=2.0",
+    # Orchestration & data
+    "kedro==1.3.1",
+    "kedro-datasets[spark]==9.3.0",
+    "kedro-mlflow==2.0.3",
+    "pyspark==4.1.1",
+    "pandas==2.3.3",
+    "numpy==2.2.6",
+    "kaggle==1.6.0",
+    "python-dotenv==1.0.1",
+    # Experiment tracking
+    "mlflow==3.15.1",
+    # ML / forecasting & optimization
+    "scikit-learn==1.5.2",
+    "lightgbm==4.6.0",
+    "xgboost==3.0.2",
+    "optuna==4.4.0",
+    # Serving & dashboard
+    "fastapi==0.136.1",
+    "uvicorn[standard]==0.46.0",
+    "pydantic==2.13.3",
+    "dash==4.4.1",
+    "plotly==5.24.1",
+    "requests==2.32.3",
+    "gunicorn==21.2.0",
+    "pyyaml==6.0.1",
+    "scipy==1.15.3",
+    # Pipeline versioning
+    "dvc==3.62.0",
+    # Quality & testing
+    "ruff==0.15.22",
+    "pytest==9.1.1",
+    "pytest-cov==7.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff==0.15.22",
+    "pytest==9.1.1",
+    "pytest-cov==7.1.0",
 ]
 
 [tool.setuptools.packages.find]
@@ -31,3 +62,28 @@ source_dir = "src"
 
 [tool.kedro_telemetry]
 project_id = "b17d142876e540e5a4919d3558a3a458"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM"]
+ignore = ["E501", "C408", "C409", "SIM105"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/retail_demand_forecasting/dash_app/app.py" = ["C408", "E501", "W505", "SIM105"]
+"src/retail_demand_forecasting/nodes/data_science.py" = ["E501", "SIM105"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --cov=src --cov-report=term-missing"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true

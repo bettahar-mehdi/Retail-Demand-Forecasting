@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyc
 
 # Distribution / packaging
 .Python
@@ -25,35 +26,75 @@ wheels/
 .venv/
 venv/
 ENV/
+env/
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+*.code-workspace
 
-# Kedro
+# Logs & crash dumps
 *.log
+*.err
 info.log
+hs_err_pid*.log
+*.out
 
-# Data (large files — download from Kaggle / Zenodo)
-data/01_raw/*.csv
-data/01_raw/*.zip
-data/02_intermediate/
-data/03_features/
-data/06_metrics/
+# Data — DVC tracked, not Git tracked (large files)
+data/
+!data/.gitkeep
+data/raw/
+*.csv
+*.parquet
+
+# Models & checkpoints — DVC tracked
+models/
+*.pkl
+*.joblib
+*.bin
 
 # MLflow
 mlflow.db
 mlruns/
 mlartifacts/
+mlflow/
+
+# DVC
+.dvc/cache/
+.dvc/tmp/
+
+# Environment & secrets
+.env
+.env.local
+conf/local/
+*.key
+*.pem
 
 # OS
 .DS_Store
 Thumbs.db
+ehthumbs.db
+Desktop.ini
 
-# Jupyter
+# Jupyter & IPython
 .ipynb_checkpoints/
+.jupyter/
+.jupyter_runtime/
+.ipynb_checkpoints
 
-# Environment
-.env
+# Testing & linting caches
+.pytest_cache/
+.coverage
+htmlcov/
+.coverage.*
+coverage.xml
+.mypy_cache/
+.ruff_cache/
+
+# Kedro
+.kedro/
+
+# Docker
+.dockerignore

@@ -1,10 +1,44 @@
 feature_engineering:
-  lag_days: [7, 28]
+  lag_days: [1, 2, 3, 7, 14, 21, 28]
   rolling_window_days: [7, 28]
+  # Rolling aggregates computed shifted by 1 (no leakage): mean/min/max/std
+  rolling_aggregates: ["mean", "min", "max", "std"]
+  # Calendar / cyclical
+  calendar_features: ["day_of_week", "day_of_month", "month", "year", "is_weekend"]
+  cyclical_features: ["day_of_week", "day_of_month", "month"]
+  # Hierarchical store/dept/cat trends for sparse items
+  hierarchical_windows: [7, 28]
 
 model_params:
-  max_depth: 5
-  num_trees: 50
+  model_type: "LightGBM"  # LightGBM tweedie fixes flat 0s for sparse HOBBIES_1_003
+  objective: "tweedie"
+  tweedie_variance_power: 1.3  # 1.1-1.5, 1.5 more zero-tolerant
+  n_estimators: 300
+  num_trees: 300
+  max_depth: 8
+  num_leaves: 31
+  learning_rate: 0.05
+  min_child_samples: 20
+  subsample: 0.8
+  colsample_bytree: 0.8
+  reg_alpha: 0.0
+  reg_lambda: 0.0
   target_col: "sales"
   test_size: 0.2
   random_state: 42
+
+optuna:
+  enabled: true
+  n_trials: 30
+  cv_splits: 3
+  timeout: 600  # seconds, null for no timeout
+  sampler_seed: 42
+
+metrics:
+  primary: "wape"
+  track: ["wape", "rmse", "mae", "r2", "mape"]
+
+drift:
+  psi_threshold: 0.2
+  ks_alpha: 0.05
+  zero_rate_delta: 0.10

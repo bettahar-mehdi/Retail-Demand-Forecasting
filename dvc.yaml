@@ -1,0 +1,46 @@
+stages:
+  data_preparation:
+    cmd: python src/data_prep.py
+    deps:
+      - src/data_prep.py
+      - src/retail_demand_forecasting/nodes/data_engineering.py
+      - src/retail_demand_forecasting/nodes/feature_engineering.py
+      - src/retail_demand_forecasting/pipelines/data_engineering/pipeline.py
+      - src/retail_demand_forecasting/pipelines/feature_engineering/pipeline.py
+      - conf/base/catalog.yml
+      - conf/base/parameters.yml
+      - data/01_raw/calendar.csv
+      - data/01_raw/sales_train_validation.csv
+      - data/01_raw/sell_prices.csv
+    outs:
+      - data/02_intermediate:
+          persist: false
+      - data/03_features:
+          persist: false
+      - data/processed:
+          persist: false
+    params:
+      - feature_engineering.lag_days
+      - feature_engineering.rolling_window_days
+
+  train_and_tune:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - src/retail_demand_forecasting/nodes/data_science.py
+      - src/retail_demand_forecasting/nodes/constants.py
+      - src/retail_demand_forecasting/pipelines/data_science/pipeline.py
+      - conf/base/parameters.yml
+      - data/03_features
+      - data/processed
+    outs:
+      - models/forecast_model.pkl:
+          persist: true
+    metrics:
+      - metrics.json:
+          cache: false
+      - data/06_metrics/model_metrics.json:
+          cache: false
+    params:
+      - model_params
+      - optuna

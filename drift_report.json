@@ -1,0 +1,240 @@
+{
+  "psi_threshold": 0.2,
+  "ks_alpha": 0.05,
+  "features": [
+    {
+      "feature": "lag_1",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "lag_2",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "lag_3",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "lag_7",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "lag_14",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "lag_21",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "lag_28",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "rolling_mean_7",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "rolling_min_7",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "rolling_max_7",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "rolling_std_7",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "rolling_mean_28",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "rolling_min_28",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "rolling_max_28",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "rolling_std_28",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "store_rolling_mean_7",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "store_rolling_mean_28",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "dept_rolling_mean_7",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "dept_rolling_mean_28",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "cat_rolling_mean_7",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "cat_rolling_mean_28",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "day_of_week",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "day_of_month",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "month",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "year",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "is_weekend",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "day_of_week_sin",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "day_of_week_cos",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "day_of_month_sin",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "day_of_month_cos",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "month_sin",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "month_cos",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "snap_CA",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "snap_TX",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "snap_WI",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "has_event_1",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "has_event_2",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    },
+    {
+      "feature": "sell_price",
+      "psi": 0.0,
+      "ks_p": 1.0,
+      "status": "pass"
+    }
+  ],
+  "overall": "pass",
+  "failures": [],
+  "target": {
+    "global_zero_rate_delta": 0.0,
+    "status": "pass"
+  }
+}

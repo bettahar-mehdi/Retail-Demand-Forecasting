@@ -1,0 +1,15 @@
+{
+  "mae": 2.811755320330635,
+  "rmse": 3.130557267602557,
+  "wape": 64.63805334093415,
+  "mape": 134.8788166696355,
+  "r2": -0.09777527927630225,
+  "best_params": {
+    "n_estimators": 300,
+    "max_depth": 17,
+    "min_samples_split": 9,
+    "min_samples_leaf": 5,
+    "max_features": "log2"
+  },
+  "best_cv_wape": 52.61492087203907
+}

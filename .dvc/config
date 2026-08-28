@@ -1,0 +1,7 @@
+[core]
+    autostage = true
+[cache]
+    dir = .dvc/cache
+    type = symlink
+['remote "localremote"']
+    url = .dvc/storage

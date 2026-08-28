@@ -17,9 +17,7 @@ def unpivot_sales(
     id_cols = ["id", "item_id", "dept_id", "cat_id", "store_id", "state_id"]
     day_cols = [f"d_{i}" for i in range(1, 1914)]
 
-    stack_expr = ", ".join(
-        [f"'{c}', `{c}`" for c in day_cols]
-    )
+    stack_expr = ", ".join([f"'{c}', `{c}`" for c in day_cols])
 
     select_expr = id_cols + [f"stack(1913, {stack_expr}) as (day_id, sales)"]
 
@@ -32,21 +30,25 @@ def unpivot_sales(
     )
 
     # --- 2. Prepare calendar: map day_id (d_1 -> 1) to date ---
-    calendar = calendar_raw.select(
-        col("d").alias("day_id_str"),
-        col("date"),
-        col("wm_yr_wk"),
-        col("event_name_1"),
-        col("event_type_1"),
-        col("event_name_2"),
-        col("event_type_2"),
-        col("snap_CA"),
-        col("snap_TX"),
-        col("snap_WI"),
-    ).withColumn(
-        "day_id",
-        expr("cast(regexp_replace(day_id_str, 'd_', '') as int)"),
-    ).drop("day_id_str")
+    calendar = (
+        calendar_raw.select(
+            col("d").alias("day_id_str"),
+            col("date"),
+            col("wm_yr_wk"),
+            col("event_name_1"),
+            col("event_type_1"),
+            col("event_name_2"),
+            col("event_type_2"),
+            col("snap_CA"),
+            col("snap_TX"),
+            col("snap_WI"),
+        )
+        .withColumn(
+            "day_id",
+            expr("cast(regexp_replace(day_id_str, 'd_', '') as int)"),
+        )
+        .drop("day_id_str")
+    )
 
     # --- 3. Join melted sales with calendar on day_id ---
     result = melted.join(calendar, on="day_id", how="left")
