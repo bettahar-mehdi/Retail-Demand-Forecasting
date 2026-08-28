@@ -1,6 +1,3 @@
-PowerShellcd "D:\Retail Demand Forecasting"
-
-@'
 # 🏬 Retail Demand Forecasting System (Production MLOps)
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/)
