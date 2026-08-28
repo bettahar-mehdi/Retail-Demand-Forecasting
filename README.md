@@ -29,14 +29,13 @@ An end-to-end Machine Learning Operations (MLOps) platform designed to optimize 
 
 
 
-📊 Model Performance & BenchmarksModels are evaluated across time-series validation splits. Candidates are promoted only if they outperform the naïve benchmark across both error and goodness-of-fit metrics:Model PipelineStrategyWAPE (%)RMSER2 ScoreRegistry StatusBaseline BenchmarkNaïve Seasonal (Lag-7)34.80%3.420.710ArchivedLightGBM (Tuned)38-Feature Pipeline29.74%2.150.828Production🚀 QuickstartThis project uses uv for fast, deterministic dependency management.1. Installation & Environment SetupPowerShellgit clone [https://github.com/bettahar-mehdi/Retail-Demand-Forecasting.git](https://github.com/bettahar-mehdi/Retail-Demand-Forecasting.git)
-cd Retail-Demand-Forecasting
+📊 Model Performance & BenchmarksModels are evaluated across time-series validation splits. Candidates are promoted only if they outperform the naïve benchmark across both error and goodness-of-fit metrics:Model PipelineStrategyWAPE (%)RMSER2 ScoreRegistry StatusBaseline BenchmarkNaïve Seasonal (Lag-7)34.80%3.420.710ArchivedLightGBM (Tuned)38-Feature Pipeline29.74%2.150.828Production🚀 
 
 
 
 📁 Repository ArchitecturePlaintext├── app.py                              # Root WSGI entry point (Dash server) for cloud deployment
 
-
+├── app.py                              # Root WSGI entry point (Dash server) for cloud deployment
 ├── Procfile                            # Gunicorn production worker configuration
 ├── pyproject.toml / requirements.txt   # Dependency definitions (uv / pip)
 ├── dvc.yaml / dvc.lock                 # DVC pipeline DAG and reproducible stages
