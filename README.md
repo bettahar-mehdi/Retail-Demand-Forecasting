@@ -29,27 +29,13 @@ An end-to-end Machine Learning Operations (MLOps) platform designed to optimize 
 
 <img width="1920" height="1080" alt="retail_dashbord1" src="https://github.com/user-attachments/assets/e21283f5-8c90-4b45-a9cc-f88cfd62d067" />
 
+
+
 📊 Model Performance & BenchmarksModels are evaluated across time-series validation splits. Candidates are promoted only if they outperform the naïve benchmark across both error and goodness-of-fit metrics:Model PipelineStrategyWAPE (%)RMSER2 ScoreRegistry StatusBaseline BenchmarkNaïve Seasonal (Lag-7)34.80%3.420.710ArchivedLightGBM (Tuned)38-Feature Pipeline29.74%2.150.828Production🚀 QuickstartThis project uses uv for fast, deterministic dependency management.1. Installation & Environment SetupPowerShellgit clone [https://github.com/bettahar-mehdi/Retail-Demand-Forecasting.git](https://github.com/bettahar-mehdi/Retail-Demand-Forecasting.git)
 cd Retail-Demand-Forecasting
 
-# Install dependencies and sync virtual environment
-uv sync
-2. Reproduce Pipeline via DVCPowerShell# Reproduce data preprocessing and feature generation stages
-dvc repro
-3. Run Test SuitePowerShell# Run unit, parity, and drift tests
-uv run pytest tests/ -v
-4. Launch Dashboard & APIPowerShell# Starts the FastAPI backend (port 8000) and Plotly Dash dashboard (port 8050)
-.\start_all.bat
-Interactive Dashboard: http://127.0.0.1:8050API Documentation: http://127.0.0.1:8000/docs🔌 API Integration ExamplePowerShellcurl -X POST "[http://127.0.0.1:8000/predict](http://127.0.0.1:8000/predict)" `
-     -H "Content-Type: application/json" `
-     -d '{"store_id": "CA_1", "item_id": "HOBBIES_1_001", "horizon_days": 28}'
-Sample JSON Response:JSON{
-  "store_id": "CA_1",
-  "item_id": "HOBBIES_1_001",
-  "forecast_horizon": 28,
-  "predictions": [1.45, 1.20, 0.98, 2.10, 1.85, 0.50, 0.75, 1.10],
-  "model_version": "v1.0-production"
-}
+
+
 📁 Repository ArchitecturePlaintext├── app.py                              # Root WSGI entry point (Dash server) for cloud deployment
 ├── Procfile                            # Gunicorn production worker configuration
 ├── pyproject.toml / requirements.txt   # Dependency definitions (uv / pip)
