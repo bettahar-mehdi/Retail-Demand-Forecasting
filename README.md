@@ -22,27 +22,13 @@ An end-to-end Machine Learning Operations (MLOps) platform designed to optimize 
 
 ---
 
-## 🏗️ System Architecture
+## Dash app 
 
-```mermaid
-flowchart LR
-    subgraph Data["1. Data & DVC Layer"]
-        A[Raw Sales & Calendar Data] -->|dvc repro| B[PySpark / Pandas Feature Pipeline]
-        B --> C[(Validated Parquet Store)]
-    end
+<img width="1920" height="1080" alt="retail_dashbord1" src="https://github.com/user-attachments/assets/fc029543-cc9e-4955-be9a-6443633bfe70" />
 
-    subgraph Governance["2. Training & Governance"]
-        C --> D[LightGBM Forecaster]
-        D --> E{WAPE Evaluation Gate}
-        E -->|Passes Gate| F[(MLflow Model Registry)]
-        E -->|Degrades Metric| G[Reject Candidate Run]
-    end
 
-    subgraph Serving["3. Serving & Observability"]
-        F --> H[FastAPI Inference Engine]
-        H --> I[Plotly Dash Executive UI]
-        H --> J[KS-Test / PSI Drift Monitor]
-    end
+<img width="1920" height="1080" alt="retail_dashbord1" src="https://github.com/user-attachments/assets/e21283f5-8c90-4b45-a9cc-f88cfd62d067" />
+
 📊 Model Performance & BenchmarksModels are evaluated across time-series validation splits. Candidates are promoted only if they outperform the naïve benchmark across both error and goodness-of-fit metrics:Model PipelineStrategyWAPE (%)RMSER2 ScoreRegistry StatusBaseline BenchmarkNaïve Seasonal (Lag-7)34.80%3.420.710ArchivedLightGBM (Tuned)38-Feature Pipeline29.74%2.150.828Production🚀 QuickstartThis project uses uv for fast, deterministic dependency management.1. Installation & Environment SetupPowerShellgit clone [https://github.com/bettahar-mehdi/Retail-Demand-Forecasting.git](https://github.com/bettahar-mehdi/Retail-Demand-Forecasting.git)
 cd Retail-Demand-Forecasting
 
